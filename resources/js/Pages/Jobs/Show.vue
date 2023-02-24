@@ -5,18 +5,13 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import AddButton from '@/Components/AddButton.vue';
 import FormSection from '@/Components/FormSection.vue';
 import { useForm } from '@inertiajs/vue3'
-import { ref } from 'vue';
 
-const props = defineProps({ user: Object })
 
 const form = useForm({
     columns: [''],
     prompts: [''],
     csv: null,
-    userId: props.user.id,
 })
-
-// const file = ref<File | null>();
 
 function addColumn() {
     form.columns.push('')
@@ -41,7 +36,10 @@ function clearForm() {
 }
 
 function submitForm() {
-    form.submit('post', '/jobs')
+    form.submit('post', '/jobs', {
+        forceFormData: true,
+        onSuccess: () => form.reset(),
+        })
 }
 
 </script>
@@ -100,10 +98,11 @@ function submitForm() {
                             <div v-if="form.errors.prompts">{{ form.errors.prompts }}</div>
                             <!-- password -->
                             <label for="csv">CSV file:</label>
-                            <input type="file" v-on:change="form.csv">
+                            <input type="file" @input="form.csv = $event.target.files[0]" />
+                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                            {{ form.progress.percentage }}%
+                            </progress>
                             <div v-if="form.errors.csv">{{ form.errors.csv }}</div>
-                        <!-- remember me -->
-                        <input type="hidden" v-model="form.userId">
                     </template>
 
                     <template #actions>

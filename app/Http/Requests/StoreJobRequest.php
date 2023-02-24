@@ -24,7 +24,7 @@ class StoreJobRequest extends FormRequest
         return [
             'columns' => 'array',
             'prompts' => 'array',
-            // 'csv' => 'max:200000|mimes:csv,xlsx',
+            'csv' => 'max:200000|mimes:csv,xlsx',
             'userId' => 'exists:users,id'
         ];
     }

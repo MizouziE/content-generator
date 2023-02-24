@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreJobRequest;
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class JobController extends Controller
@@ -14,7 +16,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Jobs/Show', ['user' => Auth::user()]);
+        return Inertia::render('Jobs/Show');
     }
 
     /**
@@ -32,16 +34,16 @@ class JobController extends Controller
     {
         $values = $request->validated();
 
+        $csvPath = $request->file('csv')->store();
+
         $job = Job::create([
             'columns' => json_encode($values['columns']),
             'prompts' => json_encode($values['prompts']),
-            'user_id' => $values['userId'],
-            'csv_path' => 'figure this out'
+            'user_id' => Auth::user()->id,
+            'csv_path' => $csvPath
         ]);
 
-        dump($job);
-
-        // return redirect(route('jobs'));
+        return to_route('jobs');
     }
 
     /**
