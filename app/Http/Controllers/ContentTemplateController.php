@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreJobRequest;
-use App\Models\Job;
+use App\Http\Requests\StoreContentTemplateRequest;
+use App\Models\ContentTemplate;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class JobController extends Controller
+class ContentTemplateController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Jobs/Show');
+        return Inertia::render('ContentTemplates/Show');
     }
 
     /**
@@ -30,20 +30,20 @@ class JobController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJobRequest $request)
+    public function store(StoreContentTemplateRequest $request)
     {
         $values = $request->validated();
 
         $csvPath = $request->file('csv')->store();
 
-        $job = Job::create([
+        $contentTemplate = ContentTemplate::create([
             'columns' => json_encode($values['columns']),
             'prompts' => json_encode($values['prompts']),
             'user_id' => Auth::user()->id,
             'csv_path' => $csvPath
         ]);
 
-        return to_route('jobs');
+        return to_route('contentTemplates');
     }
 
     /**

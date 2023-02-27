@@ -36,7 +36,7 @@ function clearForm() {
 }
 
 function submitForm() {
-    form.submit('post', '/jobs', {
+    form.submit('post', '/content-templates', {
         forceFormData: true,
         onSuccess: () => form.reset(),
         })
@@ -45,10 +45,10 @@ function submitForm() {
 </script>
 
 <template>
-    <AppLayout title="Jobs">
+    <AppLayout title="ContentTemplates">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Jobs
+                Content Templates
             </h2>
         </template>
 
@@ -59,7 +59,7 @@ function submitForm() {
                     <FormSection>
                         <template #title>
                             <div class="pt-12 px-12">
-                                Configure New Job
+                                Configure New Content Template
                             </div>
                         </template>
 
@@ -127,14 +127,14 @@ function submitForm() {
         <!-- <div>
                 <PrimaryButton 
                             @onClick="">
-                                Create New Job
+                                Create New ContentTemplate
                             </PrimaryButton>
                         </div> -->
 
         <!-- <template>
                             <DialogModal v-if="$page.props.open">
                                                     <template #title>
-                                                        Create New Job
+                                                        Create New ContentTemplate
                                                     </template>
 
                                                     <template #content>
