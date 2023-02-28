@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Content;
 use App\Models\ContentTemplate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Orhanerday\OpenAi\OpenAi;
 
 class ProcessContentTemplate implements ShouldQueue
 {
@@ -25,9 +27,9 @@ class ProcessContentTemplate implements ShouldQueue
     /**
      * Execute the job.
      */
-    public static function handle(): array
+    public static function handle(int $id): void
     {
-        $tmp = ContentTemplate::first();
+        $tmp = ContentTemplate::find($id);
         $substitutes = [];
 
         // Open file
@@ -62,16 +64,18 @@ class ProcessContentTemplate implements ShouldQueue
                 $promptRow = [];
 
                 // Swap out substitutes in each prompt per row
-                foreach ($substitutes as $substitute => $position) {
-                    foreach (json_decode($tmp->prompts) as $prompt) {
+                foreach (json_decode($tmp->prompts) as $prompt) {
+                    foreach ($substitutes as $substitute => $position) {
 
                         if (str_contains($prompt, "{{ " . $substitute . " }}")) {
 
-                            $promptRow[] = str_replace("{{ " . $substitute . " }}", $row[$position], $prompt);
+                            $prompt = str_replace("{{ " . $substitute . " }}", $row[$position], $prompt);
                         }
                     }
+                    $promptRow[] = $prompt;
                 }
 
+                // Construct groups of switched out prompts per row
                 $promptList[] = $promptRow;
             }
 
@@ -80,13 +84,35 @@ class ProcessContentTemplate implements ShouldQueue
         } while (!feof($file));
         fclose($file);
 
-        // Construct groups of switched out prompts per row
-        return $promptList;
-
         // Send prompts to OpenAI
+        $openAI = new OpenAi(env('OPENAI_API_KEY'));
 
-        // Concatenate and Save responses, per row
+        foreach ($promptList as $articleTemplate) {
 
-        // Notify user of availabilty of content at given url
+            $articleOutput = '';
+
+            foreach ($articleTemplate as $singlePrompt) {
+
+                $complete = $openAI->completion([
+                    'model' => 'text-davinci-003',
+                    'prompt' => $singlePrompt,
+                    'max_tokens' => 50,
+                ]);
+                
+                // Concatenate and Save responses, per row
+                $articleOutput .= json_decode($complete)->choices[0]->text;
+            }
+
+            $article = Content::create([
+                'body' => $articleOutput,
+            ]);
+
+            $article->contentTemplate()->associate($tmp);
+            $article->save();
+            
+        }
+
+
+        // TODO: Notify user of availabilty of content at given url
     }
 }

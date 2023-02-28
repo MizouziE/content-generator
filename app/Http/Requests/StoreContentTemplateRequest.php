@@ -25,7 +25,6 @@ class StoreContentTemplateRequest extends FormRequest
             'columns' => 'array',
             'prompts' => 'array',
             'csv' => 'max:200000|mimes:csv,xlsx',
-            'userId' => 'exists:users,id'
         ];
     }
 }

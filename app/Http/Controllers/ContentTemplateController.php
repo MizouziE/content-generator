@@ -37,13 +37,13 @@ class ContentTemplateController extends Controller
         $csvPath = $request->file('csv')->store();
 
         $contentTemplate = ContentTemplate::create([
-            'columns' => json_encode($values['columns']),
-            'prompts' => json_encode($values['prompts']),
+            'columns' => json_encode(array_filter($values['columns'])),
+            'prompts' => json_encode(array_filter($values['prompts'])),
             'user_id' => Auth::user()->id,
             'csv_path' => $csvPath
         ]);
 
-        return to_route('contentTemplates');
+        return redirect(route('contentTemplates'));
     }
 
     /**
