@@ -16,7 +16,7 @@ class ContentController extends Controller
     public function show(string $id)
     {
         $content = Content::with('contentTemplate')->find($id);
-        $body = Str::markdown($content->body);
+        $body = Str::markdown(str_replace("\n","  \n", $content->body));
 
         return Inertia::render('Content/Show', [
             'content' => $content,
