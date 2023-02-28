@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ContentTemplateController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,4 +36,5 @@ Route::middleware([
     })->name('dashboard');
     Route::get('/content-templates', [ContentTemplateController::class, 'index'])->name('contentTemplates');
     Route::post('/content-templates', [ContentTemplateController::class, 'store'])->name('contentTemplates.create');
+    Route::get('/content/{id}', [ContentController::class, 'show'])->name('content');
 });
