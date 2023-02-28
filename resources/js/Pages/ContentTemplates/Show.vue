@@ -47,7 +47,7 @@ function submitForm() {
 </script>
 
 <template>
-    <AppLayout title="ContentTemplates">
+    <AppLayout title="Content Templates">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Content Templates

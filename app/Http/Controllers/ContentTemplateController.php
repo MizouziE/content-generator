@@ -16,7 +16,9 @@ class ContentTemplateController extends Controller
      */
     public function index()
     {
-        return Inertia::render('ContentTemplates/Show');
+        $templates = ContentTemplate::all();
+
+        return Inertia::render('ContentTemplates/Index', ['templates' => $templates]);
     }
 
     /**
@@ -52,7 +54,7 @@ class ContentTemplateController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('ContentTemplates/Show');
     }
 
     /**
