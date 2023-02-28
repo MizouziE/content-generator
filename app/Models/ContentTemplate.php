@@ -10,9 +10,10 @@ class ContentTemplate extends Model
     use HasFactory;
 
     protected $fillable = [
-        'prompts',
-        'csv_path',
         'columns',
+        'prompts',
+        'max_tokens',
+        'csv_path',
         'user_id'
     ];
 

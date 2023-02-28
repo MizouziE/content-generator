@@ -39,6 +39,7 @@ class ContentTemplateController extends Controller
         $contentTemplate = ContentTemplate::create([
             'columns' => json_encode(array_filter($values['columns'])),
             'prompts' => json_encode(array_filter($values['prompts'])),
+            'max_tokens' => $values['maxTokens'],
             'user_id' => Auth::user()->id,
             'csv_path' => $csvPath
         ]);

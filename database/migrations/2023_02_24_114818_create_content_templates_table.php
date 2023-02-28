@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamps();
             $table->json('columns')->nullable();
             $table->json('prompts')->nullable();
+            $table->bigInteger('max_tokens')->nullable();
             $table->string('csv_path')->nullable();
             $table->foreignIdFor(User::class)->nullable();
         });

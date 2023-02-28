@@ -10,6 +10,7 @@ import { useForm } from '@inertiajs/vue3'
 const form = useForm({
     columns: [''],
     prompts: [''],
+    maxTokens: 50,
     csv: null,
 })
 
@@ -31,6 +32,7 @@ function addPrompt() {
 function clearForm() {
     form.reset('columns')
     form.reset('prompts')
+    form.reset('maxTokens')
     form.reset('csv')
     form.clearErrors()
 }
@@ -96,7 +98,11 @@ function submitForm() {
                                     >+</AddButton>
                             </div>
                             <div v-if="form.errors.prompts">{{ form.errors.prompts }}</div>
-                            <!-- password -->
+                            <!-- max tokens -->
+                            <label for="max-tokens">Max Tokens:</label>
+                            <input id="max-tokens" type="number" v-model="form.maxTokens">
+                            <div v-if="form.errors.maxTokens">{{ form.errors.maxTokens }}</div>
+                            <!-- csv -->
                             <label for="csv">CSV file:</label>
                             <input type="file" @input="form.csv = $event.target.files[0]" />
                             <progress v-if="form.progress" :value="form.progress.percentage" max="100">

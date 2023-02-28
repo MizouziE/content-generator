@@ -96,7 +96,7 @@ class ProcessContentTemplate implements ShouldQueue
                 $complete = $openAI->completion([
                     'model' => 'text-davinci-003',
                     'prompt' => $singlePrompt,
-                    'max_tokens' => 50,
+                    'max_tokens' => $tmp->max_tokens ?? 50,
                 ]);
                 
                 // Concatenate and Save responses, per row
