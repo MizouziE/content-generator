@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ContentController extends Controller
@@ -14,8 +15,12 @@ class ContentController extends Controller
      */
     public function show(string $id)
     {
-        $content = Content::find($id);
+        $content = Content::with('contentTemplate')->find($id);
+        $body = Str::markdown($content->body);
 
-        return Inertia::render('Content/Show', ['content' => $content]);
+        return Inertia::render('Content/Show', [
+            'content' => $content,
+            'body' => $body
+        ]);
     }
 }

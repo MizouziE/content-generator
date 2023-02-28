@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-defineProps({ content: Object })
+defineProps({ content: Object, body: String })
 </script>
 
 <template>
@@ -15,7 +15,7 @@ defineProps({ content: Object })
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <p>{{ content.body }}</p>
+                    <div v-html="body"></div>
                 </div>
             </div>
         </div>
