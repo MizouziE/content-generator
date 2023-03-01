@@ -21,4 +21,9 @@ class ContentTemplate extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function content()
+    {
+        return $this->hasMany(Content::class);
+    }
 }

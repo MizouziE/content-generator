@@ -54,7 +54,9 @@ class ContentTemplateController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia::render('ContentTemplates/Show');
+        $template = ContentTemplate::with('content')->find($id);
+
+        return Inertia::render('ContentTemplates/Show', ['template' => $template]);
     }
 
     /**
