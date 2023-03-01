@@ -1,7 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Link } from '@inertiajs/vue3';
 
-defineProps({ template: Object});
+defineProps({ template: Object });
 
 </script>
 
@@ -9,8 +10,11 @@ defineProps({ template: Object});
     <AppLayout title="Content Templates">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Content Templates
+                Content Template
             </h2>
+            <Link :href="route('contentTemplates')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+            Back to List
+            </Link>
         </template>
 
         <div class="py-12">
