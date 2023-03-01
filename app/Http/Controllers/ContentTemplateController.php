@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContentTemplateRequest;
+use App\Jobs\ProcessContentTemplate;
 use App\Models\ContentTemplate;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ContentTemplateController extends Controller
@@ -45,6 +44,9 @@ class ContentTemplateController extends Controller
             'user_id' => Auth::user()->id,
             'csv_path' => $csvPath
         ]);
+
+        // Start job
+        ProcessContentTemplate::dispatch($contentTemplate);
 
         return redirect(route('contentTemplates'));
     }

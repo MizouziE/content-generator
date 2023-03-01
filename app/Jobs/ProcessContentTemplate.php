@@ -27,9 +27,9 @@ class ProcessContentTemplate implements ShouldQueue
     /**
      * Execute the job.
      */
-    public static function handle(int $id): void
+    public function handle(): void
     {
-        $tmp = ContentTemplate::find($id);
+        $tmp = $this->contentTemplate;
         $substitutes = [];
 
         // Open file
