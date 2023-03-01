@@ -68,7 +68,13 @@ function readableDate(d) {
 
         <div class="py-12">
             <div class="flex justify-center max-w-7xl mx-auto sm:px-6 lg:px-8 gap-4">
-                <div class="flex space-x-4">
+                <div class="flex flex-col space-y-4">
+            <div class="flex justify-between mb-2">
+                <span class="font-semibold text-gray-600">Click on a card to see more details</span>
+                <PrimaryButton :onClick="openModal" :type="button">
+                    Add New Template
+                </PrimaryButton>
+            </div>
                     <div class="bg-white p-4 overflow-hidden shadow-xl sm:rounded-lg" v-for="template in templates">
                         <Link class="grid grid-rows-auto gap-2" :href="'content-templates/' + template.id">
 
@@ -82,21 +88,19 @@ function readableDate(d) {
 
 
                         <div class="mt-2">Content:</div>
-                        <div class="my-2" v-for="content in template.content.slice(0, 3)">
+                        <div class="grid grid-flow-col auto-cols-max gap-2">
 
-                            <Link :href="'content/' + content.id">
-                            <SecondaryButton>
-                                {{ content.body.slice(0, 20) }}
-                            </SecondaryButton>
-                            </Link>
+                            <div class="my-2 " v-for="content in template.content.slice(0, 4)">
+                                
+                                <Link :href="'content/' + content.id">
+                                    <SecondaryButton>
+                                        {{ content.body.slice(0, 20) }}
+                                    </SecondaryButton>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex justify-center m-6">
-                <PrimaryButton :onClick="openModal" :type="button">
-                    Add New Template
-                </PrimaryButton>
             </div>
         </div>
         <Modal
