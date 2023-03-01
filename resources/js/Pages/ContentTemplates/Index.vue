@@ -74,18 +74,27 @@ function readableDate(d) {
 
                         <span>ID: {{ template.id }}</span>
                         <span>Date: {{ readableDate(template.created_at) }}</span>
-                        <span>Prompts: <ul class="list-disc list-inside"><span v-for="prompt in JSON.parse(template.prompts)">
+                        <span>Prompts: <ul class="list-disc list-inside"><span
+                                    v-for="prompt in JSON.parse(template.prompts)">
                                     <li>{{ prompt }}</li>
                                 </span></ul></span>
                         </Link>
+
+
+                        <div class="mt-2">Content:</div>
+                        <div class="my-2" v-for="content in template.content.slice(0, 3)">
+
+                            <Link :href="'content/' + content.id">
+                            <SecondaryButton>
+                                {{ content.body.slice(0, 20) }}
+                            </SecondaryButton>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="flex justify-center m-6">
-                <PrimaryButton
-                    :onClick="openModal"
-                    :type="button"
-                >
+                <PrimaryButton :onClick="openModal" :type="button">
                     Add New Template
                 </PrimaryButton>
             </div>

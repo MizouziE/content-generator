@@ -15,7 +15,7 @@ class ContentTemplateController extends Controller
      */
     public function index()
     {
-        $templates = ContentTemplate::all();
+        $templates = ContentTemplate::with('content')->get();
 
         return Inertia::render('ContentTemplates/Index', ['templates' => $templates]);
     }
