@@ -14,7 +14,8 @@ class ContentTemplate extends Model
         'prompts',
         'max_tokens',
         'csv_path',
-        'user_id'
+        'user_id',
+        'batch_id'
     ];
 
     public function user()

@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('content_templates', function (Blueprint $table) {
             $table->id();
+            $table->string('batch_id')->nullable();
             $table->timestamps();
             $table->json('columns')->nullable();
             $table->json('prompts')->nullable();

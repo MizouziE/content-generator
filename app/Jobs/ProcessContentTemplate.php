@@ -4,13 +4,17 @@ namespace App\Jobs;
 
 use App\Models\Content;
 use App\Models\ContentTemplate;
+use Illuminate\Bus\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\LazyCollection;
 use Orhanerday\OpenAi\OpenAi;
+use Throwable;
 
 class ProcessContentTemplate implements ShouldQueue
 {
@@ -30,6 +34,7 @@ class ProcessContentTemplate implements ShouldQueue
     public function handle(): void
     {
         $tmp = $this->contentTemplate;
+
         $substitutes = [];
 
         // Open file
@@ -84,34 +89,28 @@ class ProcessContentTemplate implements ShouldQueue
         } while (!feof($file));
         fclose($file);
 
-        // Send prompts to OpenAI
+        // Send prompts to OpenAI via batch
         $openAI = new OpenAi(env('OPENAI_API_KEY'));
 
-        foreach ($promptList as $articleTemplate) {
+        // $promptQueue = [];
 
-            $articleOutput = '';
+        // foreach ($promptList as $articleTemplate) {
 
-            foreach ($articleTemplate as $singlePrompt) {
+        //     $promptQueue[] = new SendPromptRow($articleTemplate, $openAI, $tmp);
+        // }
 
-                $complete = $openAI->completion([
-                    'model' => 'text-davinci-003',
-                    'prompt' => $singlePrompt,
-                    'max_tokens' => $tmp->max_tokens ?? 50,
-                ]);
-                
-                // Concatenate and Save responses, per row
-                $articleOutput .= json_decode($complete)->choices[0]->text;
-            }
+        $batch = Bus::batch([])
+        ->allowFailures()
+        ->dispatch();
+        
+        $tmp->update(['batch_id' => $batch->id]);
 
-            $article = Content::create([
-                'body' => $articleOutput,
-            ]);
-
-            $article->contentTemplate()->associate($tmp);
-            $article->save();
-            
-        }
-
+        $promptQueue = $promptList
+            ->cursor()
+            ->map(fn (array $articleTemplate) => new SendPromptRow($articleTemplate, $openAI, $tmp))
+            ->filter()
+            ->chunk(250)
+            ->each(fn (LazyCollection $rows) => $batch->add($rows));
 
         // TODO: Notify user of availabilty of content at given url
     }
