@@ -4,26 +4,24 @@ namespace App\Jobs;
 
 use App\Models\Content;
 use App\Models\ContentTemplate;
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Orhanerday\OpenAi\OpenAi;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class SendPromptRow implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(
-        private array $articleTemplate,
-        private OpenAi $openAi,
-        private ContentTemplate $tmp
+        public array $prompts,
+        public int $contentTemplateId,
+        public int $maxTokens = 50
     ) {}
 
     /**
@@ -31,35 +29,30 @@ class SendPromptRow implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->batch()->cancelled()) {
-            // Determine if the batch has been cancelled...
- 
-            return;
-        }
         
-        $articleTemplate = $this->articleTemplate;
-        $openAI = $this->openAi;
-        $tmp = $this->tmp;
+        $prompts = $this->prompts;
+        $tmp = ContentTemplate::find($this->contentTemplateId);
         
         $articleOutput = '';
+        
+        // Send prompts to OpenAI
+        // $openAI = new OpenAi(env('OPENAI_API_KEY'));
 
-        foreach ($articleTemplate as $singlePrompt) {
+        foreach ($prompts as $prompt) {
 
-            $complete = $openAI->completion([
+            $complete = OpenAI::completions()->create([
                 'model' => 'text-davinci-003',
-                'prompt' => $singlePrompt,
-                'max_tokens' => $tmp->max_tokens ?? 50,
+                'prompt' => $prompt,
+                'max_tokens' => $this->maxTokens,
             ]);
             
             // Concatenate and Save responses, per row
-            $articleOutput .= json_decode($complete)->choices[0]->text;
+            $articleOutput .= $complete['choices'][0]['text'];
         }
 
         $article = Content::create([
             'body' => $articleOutput,
+            'content_template_id' => $this->contentTemplateId
         ]);
-
-        $article->contentTemplate()->associate($tmp);
-        $article->save();
     }
 }

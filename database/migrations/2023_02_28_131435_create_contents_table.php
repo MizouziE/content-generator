@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->longText('body')->nullable();
-            $table->foreignIdFor(ContentTemplate::class)->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->foreignIdFor(ContentTemplate::class)->nullable();
         });
     }
 

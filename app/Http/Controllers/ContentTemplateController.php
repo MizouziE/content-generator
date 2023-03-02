@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContentTemplateRequest;
+use App\Imports\Spreadsheet;
 use App\Jobs\ProcessContentTemplate;
 use App\Models\ContentTemplate;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContentTemplateController extends Controller
 {
@@ -36,17 +38,20 @@ class ContentTemplateController extends Controller
         $values = $request->validated();
 
         $csvPath = $request->file('csv')->store();
+        
+        $columns = array_filter($values['columns']);
+        $prompts = array_filter($values['prompts']);
 
         $contentTemplate = ContentTemplate::create([
-            'columns' => json_encode(array_filter($values['columns'])),
-            'prompts' => json_encode(array_filter($values['prompts'])),
+            'columns' => json_encode($columns),
+            'prompts' => json_encode($prompts),
             'max_tokens' => $values['maxTokens'],
             'user_id' => Auth::user()->id,
             'csv_path' => $csvPath
         ]);
 
         // Start job
-        ProcessContentTemplate::dispatch($contentTemplate);
+        Excel::import(new Spreadsheet($columns, $prompts, $contentTemplate->id, $values['maxTokens']), $request->file('csv'));
 
         return redirect(route('contentTemplates'));
     }

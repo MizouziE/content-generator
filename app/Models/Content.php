@@ -10,7 +10,8 @@ class Content extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body'
+        'body',
+        'content_template_id'
     ];
 
     public function contentTemplate()
