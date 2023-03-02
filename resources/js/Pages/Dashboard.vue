@@ -14,7 +14,14 @@ import Welcome from '@/Components/Welcome.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Welcome />
+                    <div class="p-12 flex flex-col gap-4">
+
+                        <h1 class="text-xl font-semibold ">Welcome to the Content Generator</h1> 
+
+                        <p>Provide a list of prompt templates and a spreadsheet with the expected values to generate multiple articles with one click.</p>
+
+                        <img src="https://bestanimations.com/media/writing/388577157hand-writing-close-up-animated-gif.gif">
+                    </div>
                 </div>
             </div>
         </div>
