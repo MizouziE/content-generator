@@ -37,7 +37,7 @@ class ContentTemplateController extends Controller
     {
         $values = $request->validated();
 
-        $csvPath = $request->file('csv')->store();
+        $csvPath = $request->file('spreadsheet')->store();
         
         $columns = array_filter($values['columns']);
         $prompts = array_filter($values['prompts']);
@@ -51,7 +51,7 @@ class ContentTemplateController extends Controller
         ]);
 
         // Start job
-        Excel::import(new Spreadsheet($columns, $prompts, $contentTemplate->id, $values['maxTokens']), $request->file('csv'));
+        Excel::import(new Spreadsheet($columns, $prompts, $contentTemplate->id, $values['maxTokens']), $request->file('spreadsheet'));
 
         return redirect(route('contentTemplates'));
     }
