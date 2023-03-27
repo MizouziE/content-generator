@@ -26,6 +26,7 @@ async function readSpreadsheet(event) {
     if (files[0].size > 2500000) {
         // TODO: Do something more useful
         alert("file too big to read!");
+        clearSpreadsheet();
         return;
     }
 
