@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ContentTemplateController;
+use App\Http\Controllers\PromptController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,8 +35,15 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Content Templates
     Route::get('/content-templates', [ContentTemplateController::class, 'index'])->name('contentTemplates');
     Route::get('/content-templates/{id}', [ContentTemplateController::class, 'show'])->name('contentTemplates.show');
-    Route::post('/content-templates', [ContentTemplateController::class, 'store'])->name('contentTemplates.create');
+    Route::post('/content-templates', [ContentTemplateController::class, 'store'])->name('contentTemplates.store');
     Route::get('/content/{id}', [ContentController::class, 'show'])->name('content');
+
+    // Prompts
+    Route::get('/prompts/{id}', [PromptController::class, 'show'])->name('prompts.show');
+    Route::get('/prompts', [PromptController::class, 'index'])->name('prompts.index');
+    Route::post('/prompts', [PromptController::class, 'store'])->name('prompts.store');
 });
