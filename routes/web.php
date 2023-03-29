@@ -37,7 +37,7 @@ Route::middleware([
     })->name('dashboard');
 
     // Content Templates
-    Route::get('/content-templates', [ContentTemplateController::class, 'index'])->name('contentTemplates');
+    Route::get('/content-templates', [ContentTemplateController::class, 'index'])->name('contentTemplates.index');
     Route::get('/content-templates/{id}', [ContentTemplateController::class, 'show'])->name('contentTemplates.show');
     Route::post('/content-templates', [ContentTemplateController::class, 'store'])->name('contentTemplates.store');
     Route::get('/content/{id}', [ContentController::class, 'show'])->name('content');

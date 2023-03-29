@@ -11,7 +11,7 @@ function readableDate(d) {
 </script>
 
 <template>
-    <Link class="grid grid-rows-auto gap-2" :href="'prompts/' + prompt.id">
+    <Link class="grid grid-rows-auto gap-2" :href="prompt.id">
 
     <span>ID: {{ prompt.id }}</span>
     <span>Date: {{ readableDate(prompt.created_at) }}</span>

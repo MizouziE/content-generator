@@ -33,7 +33,7 @@ function close(event) {
                 <div class="flex flex-col space-y-4">
                     <div class="flex justify-between mb-2">
                         <span class="font-semibold text-gray-600">Click on a card to see more details</span>
-                        <PrimaryButton :onClick="openModal" :type="button">
+                        <PrimaryButton class="mx-2" :onClick="openModal" :type="button">
                             Add New Template
                         </PrimaryButton>
                     </div>
