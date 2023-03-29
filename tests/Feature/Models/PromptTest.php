@@ -86,7 +86,7 @@ class PromptTest extends TestCase
 
         $response = $this->actingAs($user)->call('POST', '/prompts', $prompt);
 
-        $response->assertOk();
+        $response->assertRedirect();
     }
 
 
@@ -104,6 +104,35 @@ class PromptTest extends TestCase
 
         $response = $this->actingAs($user)->call('POST', '/prompts', $prompt);
 
-        $response->assertOk();
+        $response->assertRedirect();
+    }
+
+    /**
+     * Test API endpoint for fetching prompt search results
+     */
+    public function test_an_empty_search_query_returns_all_prompts()
+    {
+        $prompts = Prompt::factory(rand(6, 28))->create();
+
+        $search = ['search' => ''];
+
+        $response = $this->call('GET', route('prompts.search'), $search);
+
+        $this->assertCount($prompts->count(), $response->json());
+    }
+
+    /**
+     * Test API endpoint for fetching prompt search results
+     */
+    public function test_an_unmatched_search_query_returns_no_prompts()
+    {
+        $prompts = Prompt::factory(rand(6, 28))->create();
+
+        $searchFull = ['search' => 'some specific search term that is certainly unmatchable with numbers just to be safe 98767912'];
+
+        $responseFull = $this->call('GET', route('prompts.search'), $searchFull);
+
+        $this->assertNotCount($prompts->count(), $responseFull->json());
+        $this->assertCount(0, $responseFull->json());
     }
 }

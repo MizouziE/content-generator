@@ -77,8 +77,9 @@ async function searchPrompt(search, index) {
     console.log(search);
 
     let prompts = await fetch('/api/prompts?search=' + search )
-                            .then((response) => response.json())
-                            .then((data) => console.log(data));
+                            .then((response) => response.json());
+
+    console.log(prompts);
 }
 
 function clearForm() {
