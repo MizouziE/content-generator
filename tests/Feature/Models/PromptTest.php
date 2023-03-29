@@ -11,7 +11,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 class PromptTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /**
      * A basic feature test.
@@ -80,8 +80,25 @@ class PromptTest extends TestCase
         $user = User::factory()->create();
 
         $prompt = [
-            'body' => 'This is a test {{ prompt }}',
-            'content_template_id' => null,
+            'body' => 'This is a test {{ prompt }}. ' . $this->faker->sentence(),
+            '_token' => csrf_token()
+        ];
+
+        $response = $this->actingAs($user)->call('POST', '/prompts', $prompt);
+
+        $response->assertOk();
+    }
+
+
+    /**
+     * Test for user created prompt.
+     */
+    public function test_a_user_can_create_a_long_prompt(): void
+    {
+        $user = User::factory()->create();
+
+        $prompt = [
+            'body' => 'This is a test {{ prompt }}. ' . $this->faker->paragraph(100),
             '_token' => csrf_token()
         ];
 

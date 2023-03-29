@@ -23,7 +23,6 @@ class StorePromptRequest extends FormRequest
     {
         return [
             'body' => 'string|min:12',
-            'content_template_id' => 'nullable|exists:content_templates,id'
         ];
     }
 }

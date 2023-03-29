@@ -38,11 +38,7 @@ class PromptController extends Controller
             'body' => $values['body']
         ]);
 
-        if ($values['content_template_id']) {
-            // make relationship
-        }
-
-        return response($prompt);
+        return redirect(route('prompts.index'));
     }
 
     /**

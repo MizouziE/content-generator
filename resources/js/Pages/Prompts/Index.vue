@@ -2,7 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Modal from '@/Components/Modal.vue';
 import Form from '@/Pages/Prompts/Partials/Form.vue'
-import TemplateCard from '@/Pages/Prompts/Partials/PromptCard.vue'
+import PromptCard from '@/Pages/Prompts/Partials/PromptCard.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { reactive } from 'vue';
 
@@ -38,7 +38,7 @@ function close(event) {
                         </PrimaryButton>
                     </div>
                     <div class="bg-white p-4 overflow-hidden shadow-xl sm:rounded-lg" v-for="prompt in prompts">
-                        <TemplateCard :prompt="prompt" />
+                        <PromptCard :prompt="prompt" />
                     </div>
                 </div>
             </div>

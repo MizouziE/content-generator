@@ -82,7 +82,6 @@ function clearForm() {
 }
 
 function submitForm() {
-    console.log(form)
     form.submit('post', '/content-templates', {
         forceFormData: true,
         onSuccess: () => clearForm(),

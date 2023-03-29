@@ -17,8 +17,7 @@ class PromptFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => 'This is a test {{ prompt }}',
-            'content_template_id' => null,
+            'body' => 'This is a test {{ prompt }}. ' . $this->faker->sentence(),
         ];
     }
 }

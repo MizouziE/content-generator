@@ -15,8 +15,7 @@ return new class extends Migration
         Schema::create('prompts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('body')->nullable();
-            $table->foreignIdFor(ContentTemplate::class)->nullable();
+            $table->string('body', 8000)->nullable();
         });
     }
 
