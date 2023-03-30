@@ -7,6 +7,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import { read, utils } from 'xlsx';
+import FetchedPromptList from './FetchedPromptList.vue';
 
 const emit = defineEmits(['close-modal'])
 
@@ -75,15 +76,6 @@ function addPrompt() {
     form.prompts.push('')
 }
 
-async function searchPrompt(search, index) {
-    console.log(search);
-
-    let prompts = await fetch('/api/prompts?search=' + search )
-                            .then((response) => response.json());
-
-    console.log(prompts);
-}
-
 function clearForm() {
     form.reset('columns')
     form.reset('prompts')
@@ -113,13 +105,13 @@ function submitForm() {
                 Configure New Content Template
             </div>
         </template>
-
+        
         <template #description>
             <div class="pb-12 px-12">
                 Please provide the needed information to construct prompts from which to generate articles.
             </div>
         </template>
-
+        
         <template #form>
             <div class="grid gap-y-10">
                 <!-- spreadsheet -->
@@ -162,20 +154,9 @@ function submitForm() {
                         <textarea class="grow rounded min-h-max" id="prompts" rows="4" cols="20"
                             v-model="form.prompts[index]"></textarea>
                         <div class="flex flex-col gap-2 ml-2">
-                            <SearchButton class="grow" type="button" @click="searchPrompt(prompt, index)"><svg fill="currentColor" version="1.1" id="Capa_1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    viewBox="0 0 49.999 49.999" xml:space="preserve">
-                                    <g>
-                                        <g>
-                                            <path
-                                                d="M48.681,42.295l-8.925-8.904c-0.045-0.045-0.098-0.078-0.145-0.11c-0.802,1.233-1.761,2.405-2.843,3.487    c-1.081,1.082-2.255,2.041-3.501,2.845c0.044,0.046,0.077,0.1,0.122,0.144l8.907,8.924c1.763,1.76,4.626,1.758,6.383,0    C50.438,46.921,50.439,44.057,48.681,42.295z" />
-                                            <path
-                                                d="M35.496,6.079C27.388-2.027,14.198-2.027,6.089,6.081c-8.117,8.106-8.118,21.306-0.006,29.415    c8.112,8.105,21.305,8.105,29.413-0.001C43.604,27.387,43.603,14.186,35.496,6.079z M9.905,31.678    C3.902,25.675,3.904,15.902,9.907,9.905c6.003-6.002,15.77-6.002,21.771-0.003c5.999,6,5.997,15.762,0,21.774    C25.676,37.66,15.91,37.682,9.905,31.678z" />
-                                            <path
-                                                d="M14.18,22.464c-0.441-1.812-2.257-4.326-3.785-3.525c-1.211,0.618-0.87,3.452-0.299,5.128    c2.552,7.621,11.833,9.232,12.798,8.268C23.843,31.387,15.928,29.635,14.18,22.464z" />
-                                        </g>
-                                    </g>
-                                </svg></SearchButton>
+                            <FetchedPromptList :prompt="prompt" :index="index">
+                                    
+                            </FetchedPromptList>
                             <AddButton class="grow" type="button" :onclick="addPrompt">+</AddButton>
                         </div>
                     </div>
