@@ -14,7 +14,7 @@ function openModal() {
     modal.open = true;
 }
 
-function close(event) {
+function closeModal(event) {
     modal.open = false;
 }
 
@@ -43,8 +43,8 @@ function close(event) {
                 </div>
             </div>
         </div>
-        <Modal :show="modal.open" @close="close">
-            <Form />
+        <Modal :show="modal.open" @close="closeModal">
+            <Form @close-modal="closeModal" />
         </Modal>
     </AppLayout>
 </template>

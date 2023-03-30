@@ -1,25 +1,29 @@
 <script setup>
-import AddButton from '@/Components/AddButton.vue';
 import FormSection from '@/Components/FormSection.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { useForm } from '@inertiajs/vue3'
+
+const emit = defineEmits(['close-modal'])
 
 const form = useForm({
     body: '',
 })
 
 function clearForm() {
-    form.reset('prompt')
-    form.clearErrors()
+    form.reset('body');
+    form.clearErrors();
+    emit('close-modal');
 }
 
 function submitForm() {
     form.submit('post', '/prompts', {
-        onSuccess: () => clearForm()
+        onSuccess: () => {
+            clearForm();
+            emit('close-modal')
+        }
     })
 }
-
 </script>
 
 <template>
@@ -49,7 +53,7 @@ function submitForm() {
             <SecondaryButton :onClick="clearForm">
                 Cancel
             </SecondaryButton>
-
+            
             <PrimaryButton :onclick="submitForm">
                 Submit
             </PrimaryButton>

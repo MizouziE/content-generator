@@ -8,6 +8,8 @@ import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import { read, utils } from 'xlsx';
 
+const emit = defineEmits(['close-modal'])
+
 const headings = ref([]);
 
 const form = useForm({
@@ -89,12 +91,16 @@ function clearForm() {
     form.reset('spreadsheet')
     clearSpreadsheet()
     form.clearErrors()
+    emit('close-modal')
 }
 
 function submitForm() {
     form.submit('post', '/content-templates', {
         forceFormData: true,
-        onSuccess: () => clearForm(),
+        onSuccess: () => {
+            clearForm();
+            emit('close-modal');
+        }
     })
 }
 
