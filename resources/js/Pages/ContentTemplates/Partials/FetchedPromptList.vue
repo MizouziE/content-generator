@@ -26,7 +26,8 @@
                 class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="py-1">
                     <MenuItem v-slot="{ active }" v-for="singlePrompt in fetchedPrompts">
-                    <button @click="pushPrompt(singlePrompt.body)"
+                    <button @click="$emit('push-prompt', singlePrompt.body)"
+                        class="truncate container overflow-hidden"
                         :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">{{ singlePrompt.body }}</button>
                     </MenuItem>
                 </div>
@@ -40,6 +41,8 @@ import { ref } from 'vue';
 import SearchButton from '../../../Components/SearchButton.vue'
 
 const props = defineProps({ prompt: Object, index: Number})
+
+const emit = defineEmits(['push-prompt'])
 
 const fetchedPrompts = ref([]);
 
@@ -55,12 +58,6 @@ async function searchPrompt(search, index) {
 
     fetchedPrompts.value = prompts;
     searchIndex.value = index;
-}
-
-function pushPrompt(toPush) {
-    console.log(toPush)
-    
-
 }
 </script>
   
