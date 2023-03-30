@@ -49,12 +49,8 @@ const fetchedPrompts = ref([]);
 const searchIndex = ref(0)
 
 async function searchPrompt(search, index) {
-    console.log(search, index);
-
     let prompts = await fetch('/api/prompts?search=' + search )
                             .then((response) => response.json());
-
-    console.log(prompts);
 
     fetchedPrompts.value = prompts;
     searchIndex.value = index;

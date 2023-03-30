@@ -154,12 +154,10 @@ function submitForm() {
                         <textarea class="grow rounded min-h-max" id="prompts" rows="4" cols="20"
                             v-model="form.prompts[index]"></textarea>
                         <div class="flex flex-col gap-2 ml-2">
-                            <FetchedPromptList :prompt="prompt" :index="index" @push-prompt="(payload) => {
+                            <FetchedPromptList :class="grow" :prompt="prompt" :index="index" @push-prompt="(payload) => {
                                 form.prompts[index] = payload
-                            }">
-                                    
-                            </FetchedPromptList>
-                            <AddButton class="grow" type="button" :onclick="addPrompt">+</AddButton>
+                            }" />
+                            <AddButton v-if="index == form.prompts.length - 1" class="grow" type="button" :onclick="addPrompt">+</AddButton>
                         </div>
                     </div>
                     <div v-if="form.errors.prompts">{{ form.errors.prompts }}</div>
