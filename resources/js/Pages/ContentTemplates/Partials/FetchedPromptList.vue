@@ -2,7 +2,7 @@
     <Menu as="div" class="relative inline-block text-left">
         <div>
             <MenuButton>
-                <SearchButton class="grow" type="button" @click="searchPrompt(prompt, index)"><svg fill="currentColor"
+                <SearchButton class="h-max" type="button" @click="searchPrompt(prompt, index)"><svg fill="currentColor"
                     version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 49.999 49.999" xml:space="preserve">
                     <g>
@@ -23,7 +23,7 @@
             enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75"
             leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
             <MenuItems
-                class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                class="absolute overflow-auto max-h-48 right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="py-1">
                     <MenuItem v-slot="{ active }" v-for="singlePrompt in fetchedPrompts">
                     <button @click="$emit('push-prompt', singlePrompt.body)"
