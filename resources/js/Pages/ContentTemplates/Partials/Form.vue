@@ -152,6 +152,7 @@ function submitForm() {
                     <label for="prompts">Prompts:</label>
                     <div class="flex mt-2" v-for="(prompt, index) in form.prompts" :key="index">
                         <textarea class="grow rounded min-h-max" id="prompts" rows="4" cols="20"
+                            placeholder="Enter prompt here or search saved prompts..."
                             v-model="form.prompts[index]"></textarea>
                         <div class="flex flex-col gap-2 ml-2">
                             <FetchedPromptList :class="grow" :prompt="prompt" :index="index" @push-prompt="(payload) => {

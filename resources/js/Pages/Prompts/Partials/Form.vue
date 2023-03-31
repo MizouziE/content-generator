@@ -44,7 +44,7 @@ function submitForm() {
             <div class="grid gap-y-2">
                 <!-- prompt -->
                 <label for="prompt">Prompt:</label>
-                <textarea class="grow rounded min-h-max" id="prompt" rows="4" cols="20" v-model="form.body"></textarea>
+                <textarea class="grow rounded min-h-max" id="prompt" rows="4" cols="20" v-model="form.body" placeholder="Enter prompt here..."></textarea>
                 <div v-if="form.errors.body">{{ form.errors.body }}</div>
             </div>
         </template>
