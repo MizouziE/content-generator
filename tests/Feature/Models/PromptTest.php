@@ -58,7 +58,7 @@ class PromptTest extends TestCase
 
         $prompts = Prompt::factory(5)->create();
 
-        $this->actingAs($user)->get('/prompts/')
+        $this->actingAs($user)->get(route('prompts.index'))
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Prompts/Index')
@@ -84,7 +84,7 @@ class PromptTest extends TestCase
             '_token' => csrf_token()
         ];
 
-        $response = $this->actingAs($user)->call('POST', '/prompts', $prompt);
+        $response = $this->actingAs($user)->call('POST', route('prompts.store'), $prompt);
 
         $response->assertRedirect();
     }
@@ -102,7 +102,7 @@ class PromptTest extends TestCase
             '_token' => csrf_token()
         ];
 
-        $response = $this->actingAs($user)->call('POST', '/prompts', $prompt);
+        $response = $this->actingAs($user)->call('POST', route('prompts.store'), $prompt);
 
         $response->assertRedirect();
     }

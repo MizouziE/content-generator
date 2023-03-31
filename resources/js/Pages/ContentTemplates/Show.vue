@@ -22,7 +22,7 @@ function readableDate(d) {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <Link :href="route('contentTemplates')"
+                <Link :href="route('contentTemplates.index')"
                     class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
                 Back to List
                 </Link>

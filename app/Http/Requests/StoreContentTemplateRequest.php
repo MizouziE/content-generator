@@ -23,9 +23,9 @@ class StoreContentTemplateRequest extends FormRequest
     {
         return [
             'columns' => 'array',
-            'prompts' => 'array',
+            'prompts' => 'required|array',
             'maxTokens' => 'integer|numeric|gte:1|lte:4000',
-            'spreadsheet' => 'max:200000|mimes:csv,xlsx,xls,ots',
+            'spreadsheet' => 'required|max:200000|mimes:csv,xlsx,xls,ots',
         ];
     }
 }
