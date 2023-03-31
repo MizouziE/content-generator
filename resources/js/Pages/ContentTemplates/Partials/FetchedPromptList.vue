@@ -2,9 +2,9 @@
     <Menu as="div" class="relative inline-block text-left">
         <div>
             <MenuButton>
-                <SearchButton class="h-max" type="button" @click="searchPrompt(prompt, index)"><svg fill="currentColor"
+                <SearchButton class="max-h-16" type="button" @click="searchPrompt(prompt, index)"><svg fill="currentColor"
                     version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 49.999 49.999" xml:space="preserve">
+                    width="50%" viewBox="0 0 50 50" xml:space="preserve">
                     <g>
                         <g>
                             <path
