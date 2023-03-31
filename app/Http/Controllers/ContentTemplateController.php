@@ -53,7 +53,7 @@ class ContentTemplateController extends Controller
         // Start job
         Excel::import(new Spreadsheet($columns, $prompts, $contentTemplate->id, $values['maxTokens']), $request->file('spreadsheet'));
 
-        return redirect(route('contentTemplates'));
+        return redirect(route('contentTemplates.index'));
     }
 
     /**

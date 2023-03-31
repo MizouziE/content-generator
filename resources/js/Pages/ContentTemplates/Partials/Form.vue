@@ -1,11 +1,15 @@
 <script setup>
 import AddButton from '@/Components/AddButton.vue';
+import SearchButton from '@/Components/SearchButton.vue';
 import FormSection from '@/Components/FormSection.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import { read, utils } from 'xlsx';
+import FetchedPromptList from './FetchedPromptList.vue';
+
+const emit = defineEmits(['close-modal'])
 
 const headings = ref([]);
 
@@ -79,13 +83,16 @@ function clearForm() {
     form.reset('spreadsheet')
     clearSpreadsheet()
     form.clearErrors()
+    emit('close-modal')
 }
 
 function submitForm() {
-    console.log(form)
     form.submit('post', '/content-templates', {
         forceFormData: true,
-        onSuccess: () => clearForm(),
+        onSuccess: () => {
+            clearForm();
+            emit('close-modal');
+        }
     })
 }
 
@@ -98,13 +105,13 @@ function submitForm() {
                 Configure New Content Template
             </div>
         </template>
-
+        
         <template #description>
             <div class="pb-12 px-12">
                 Please provide the needed information to construct prompts from which to generate articles.
             </div>
         </template>
-
+        
         <template #form>
             <div class="grid gap-y-10">
                 <!-- spreadsheet -->
@@ -144,8 +151,15 @@ function submitForm() {
 
                     <label for="prompts">Prompts:</label>
                     <div class="flex mt-2" v-for="(prompt, index) in form.prompts" :key="index">
-                        <input class="grow rounded min-h-max" id="prompts" type="text" v-model="form.prompts[index]">
-                        <AddButton class="ml-2" type="button" :onclick="addPrompt">+</AddButton>
+                        <textarea class="grow rounded min-h-max" id="prompts" rows="4" cols="20"
+                            placeholder="Enter prompt here or search saved prompts..."
+                            v-model="form.prompts[index]"></textarea>
+                        <div class="flex flex-col gap-2 ml-2">
+                            <FetchedPromptList :class="grow" :prompt="prompt" :index="index" @push-prompt="(payload) => {
+                                form.prompts[index] = payload
+                            }" />
+                            <AddButton v-if="index == form.prompts.length - 1" class="grow" type="button" :onclick="addPrompt">+</AddButton>
+                        </div>
                     </div>
                     <div v-if="form.errors.prompts">{{ form.errors.prompts }}</div>
                 </div>
@@ -168,8 +182,7 @@ function submitForm() {
             </SecondaryButton>
 
             <PrimaryButton :onclick="submitForm">
-                Submit
-            </PrimaryButton>
-        </template>
-    </FormSection>
-</template>
+            Submit
+        </PrimaryButton>
+    </template>
+</FormSection></template>

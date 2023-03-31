@@ -1,12 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Modal from '@/Components/Modal.vue';
-import Form from '@/Pages/ContentTemplates/Partials/Form.vue'
-import TemplateCard from '@/Pages/ContentTemplates/Partials/TemplateCard.vue'
+import Form from '@/Pages/Prompts/Partials/Form.vue'
+import PromptCard from '@/Pages/Prompts/Partials/PromptCard.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { reactive } from 'vue';
 
-defineProps({ templates: Object });
+defineProps({ prompts: Object });
 
 const modal = reactive({ open: false })
 
@@ -21,10 +21,10 @@ function closeModal(event) {
 </script>
 
 <template>
-    <AppLayout title="Content Templates">
+    <AppLayout title="Prompts">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Content Templates
+                Prompts
             </h2>
         </template>
 
@@ -34,11 +34,11 @@ function closeModal(event) {
                     <div class="flex justify-between mb-2">
                         <span class="font-semibold text-gray-600">Click on a card to see more details</span>
                         <PrimaryButton class="mx-2" :onClick="openModal" :type="button">
-                            Add New Template
+                            Add New Prompt
                         </PrimaryButton>
                     </div>
-                    <div class="bg-white p-4 overflow-hidden shadow-xl sm:rounded-lg" v-for="template in templates">
-                        <TemplateCard :template="template" />
+                    <div class="bg-white p-4 overflow-hidden shadow-xl sm:rounded-lg" v-for="prompt in prompts">
+                        <PromptCard :prompt="prompt" />
                     </div>
                 </div>
             </div>

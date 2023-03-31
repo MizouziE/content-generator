@@ -12,7 +12,7 @@ function readableDate(d) {
 </script>
 
 <template>
-    <Link class="grid grid-rows-auto gap-2" :href="'content-templates/' + template.id">
+    <Link class="grid grid-rows-auto gap-2" :href="'/content-templates/' + template.id">
 
     <span>ID: {{ template.id }}</span>
     <span>Date: {{ readableDate(template.created_at) }}</span>

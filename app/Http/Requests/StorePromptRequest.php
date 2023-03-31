@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreContentTemplateRequest extends FormRequest
+class StorePromptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class StoreContentTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'columns' => 'array',
-            'prompts' => 'required|array',
-            'maxTokens' => 'integer|numeric|gte:1|lte:4000',
-            'spreadsheet' => 'required|max:200000|mimes:csv,xlsx,xls,ots',
+            'body' => 'string|min:12',
         ];
     }
 }
